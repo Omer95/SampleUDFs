@@ -30,9 +30,9 @@ object Main {
 
     df2.withColumn("incremented", incrementListFunc(col("variants"))).show()
 
-    df2.createOrReplaceGlobalTempView("geneticVariants")
-
+    df2.createOrReplaceTempView("geneticVariants")
     spark.udf.register("incrementList", udf(incrementList))
+    spark.sql("SELECT pid, name, incrementList(variants) as incremented_variants FROM geneticVariants").show()
 
   }
 }
